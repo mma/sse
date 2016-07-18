@@ -1,0 +1,22 @@
+.select-image{
+	display:block!important;
+	margin:0 auto!important;
+}
+
+.image{
+	width:54px!important;
+	height:27px!important;
+}
+.inline-image{
+	display:inline-block!important;
+}
+
+.hide-this-pls{
+	display:none;
+}
+
+.form-settings {
+	padding-left: 20px;
+    padding-top: 15px;
+    background: #f9f9f9;
+}
