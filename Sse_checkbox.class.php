@@ -1,22 +1,12 @@
 <?php
 
-class Sse_checkbox extends Sse_Basic {
-	
-	//protected $fields = array();
+final class Sse_checkbox extends Sse_Basic{
 	
 	protected $check;
 	protected $options = array();
-	protected $value;
-	
-	function __toString(){
-		return $this->title;
-	}
 	
 	public function __construct(array $fields){
-		foreach($fields as $k=>$v){
-			$this->$k = $v;
-			
-		}
+		parent::__construct($fields);
 	}
 	
 	public function display(){
@@ -40,4 +30,13 @@ class Sse_checkbox extends Sse_Basic {
 		
 		<?php
 	}
+	
+	static function verify($values){
+		
+		foreach($values as $k=>$v){
+			$values[$k] = filter_var($v, FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+		}
+		return $values;
+	}
+
 }

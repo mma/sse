@@ -55,17 +55,6 @@ class Sse {
 				update_option($option_name,$db_option);
 			}
 		}
-		
-		/*
-		var_dump($result);
-		if(!empty($result)){
-			foreach($result as $k=>$v){
-				$data[$k] = $v;
-			}
-			update_option($option_name,$data);
-		}else{
-			add_option($option_name,$data);
-		}*/
 
 	}
 	
@@ -73,6 +62,7 @@ class Sse {
 		add_action('admin_menu', array( "Sse", 'add_admin_menu'));
 		add_action('wp_ajax_sse_save_options', array( "Sse", 'sse_save_options'));
 	}
+	
 	
 	static function load_admin_js(){
 		add_action( 'admin_enqueue_scripts', array("Sse",'load_custom_wp_admin_style' ));
@@ -85,9 +75,13 @@ class Sse {
 		wp_enqueue_style( 'spectrum-css' );
 		wp_register_style( 'select-2-css', plugin_dir_url( __FILE__ ).'vendor/select2.min.css', false, '1.0.0' );
 		wp_enqueue_style( 'select-2-css' );
+		wp_register_style( 'jAlert-sse', plugin_dir_url( __FILE__ ).'vendor/jAlert-v4.css', false, '1.0.0' );
+		wp_enqueue_style( 'jAlert-sse' );
 		wp_enqueue_script( 'spectrum-js', plugin_dir_url( __FILE__ ).'vendor/spectrum.js', false );
 		wp_enqueue_script( 'sse-javascript-1', plugin_dir_url( __FILE__ ).'helpers.js', false );
 		wp_enqueue_script( 'select-2-js', plugin_dir_url( __FILE__ ).'vendor/select2.full.min.js', false );
+		wp_enqueue_script( 'jAlert-sse', plugin_dir_url( __FILE__ ).'vendor/jAlert-v4.min.js', false );
+		wp_enqueue_script( 'jAlert-functions-sse', plugin_dir_url( __FILE__ ).'vendor/jAlert-functions.min.js', false );
 	}
 
 	
@@ -120,7 +114,7 @@ class Sse {
 				
 				?>
 
-					<a href="<?php echo "?page=".$page."&section=".$sec["id"] ?>" class="nav-tab <?php echo $class ?> <?php echo $sec["id"]?>"><?php echo $sec["title"]?></a>
+					<a data-section="<?php echo esc_attr($sec['id']); ?>" href="<?php echo "?page=".esc_attr($page)."&section=".esc_attr($sec["id"]) ?>" class="nav-tab <?php echo esc_attr($class) ?> <?php echo esc_attr($sec["id"])?>"><?php echo esc_html($sec["title"])?></a>
 
 				<?php
 			}
@@ -134,47 +128,30 @@ class Sse {
 			foreach(self::$sections[$page][$section]["fields"] as $field){
 				
 				$field["value"] = $values[$field["id"]];
-				
-				//string "false" is true in php fix it
-				if($field['value'] == 'false'){
-					$field['value'] = '0';
-				}else if(is_array($field['value'])){
-					
-					foreach($field['value'] as $k=>$v){
-						if($v == 'false'){
-							$field['value'][$k]= '0';
-						}
-					}
-				}
 
-				//var_dump($field['value']);
 				//required multi level
-				$level=0;
+				$level = 0;
+				$show = 0;
 				
 				if(is_array($field["required"][0])){
 					foreach($field["required"] as $required){
 						
-						if($values[$required[0]] == 'false'){
-							$show=false;
-						}else{
-							$show=true;
+						if($values[$required[0]] == false){
+							$show++;
 						}
+						
 						
 						$level++;
 					}
 				}else if(is_string($field["required"][0])){
 					
-						if($values[$field["required"][0]] == 'false'){
-							$show=false;
-							
-						}else{
-							$show=true;
+						if($values[$field["required"][0]] == false){
+							$show++;
 						}
-
 						$level++;
 				}
 				
-				if($show){
+				if($show == 0){
 						$class="";
 					}else{
 						$class="hide-this-pls";
@@ -185,7 +162,7 @@ class Sse {
 				}
 				$margin = $level * 20;
 				?>
-				<div style="margin-left:<?php echo $margin?>px" data-level="<?php echo $level ?>" class="inline-field settings-level-<?php echo $level ?> <?php echo $field["type"]?> <?php echo $class ?>">
+				<div style="margin-left:<?php echo esc_attr($margin)?>px" data-level="<?php echo esc_attr($level) ?>" class="inline-field settings-level-<?php echo esc_attr($level) ?> <?php echo esc_attr($field["type"])?> <?php echo esc_attr($class) ?>">
 					<?php self::processField($field); ?>
 					<hr>
 				</div>
@@ -198,12 +175,11 @@ class Sse {
 				  <input id="submit-update" type="submit" name="Submit" class="button-primary" value="Update Settings">
 				  <div id="settings-spinner" class="spinner"></div>
 				</div>
-				<input id="page" type="hidden" value="<?php echo $page ?>"></input>
+				<input id="page" type="hidden" value="<?php echo esc_attr($page) ?>"></input>
 				<input id="wordpress-token" type="hidden" value="<?php echo wp_create_nonce('sse-update-settings'); ?>"></input>
 			   </form>
 			</div>
 			<?php
-			echo '<div id="ajax-messages"></div>';
 		}
 
 	}
@@ -218,23 +194,58 @@ class Sse {
 		
 		
 		$page = $_POST['page'];
-		$capability = self::$args[$page]['capability'];
 		
+		if(self::$args[$page] == NULL){
+			$response = array(
+				'value' => 0,
+				'message' => 'Invalid page.'
+			);
+			
+			echo json_encode($response);
+			wp_die();
+		}
+		
+		if(self::$sections[$page][$_POST['section']] == NULL){
+			$response = array(
+				'value' => 0,
+				'message' => 'Invalid section.'
+			);
+			
+			echo json_encode($response);
+			wp_die();
+		}
+		
+		$capability = self::$args[$page]['capability'];
+
 		if(!current_user_can( $capability )){
 			wp_die();
 		}
 		
 		$db_options = get_option($page);
 		
-		//get_option('vortex_like_dislike');
+		$fields = self::$sections[$page][$_POST['section']]['fields'];
+		
+		$type = array_column($fields,'type','id');
+		
+		foreach($_POST['data'] as $k=>$v){
+			
+			$class_name = "Sse_".$type[$k];
+			$test = $class_name::verify($v);
+			
+			$_POST['data'][$k] = $test;
+		}
 		
 		$test = array_replace($db_options,$_POST['data']);
 		
-		//var_dump($test);
-		
 		update_option($page,$test);
 		
-		//echo '<div class="notice notice-success"><p>Settings updated.</p></div>';
+		$response = array(
+			'value' => 1,
+			'message' => 'Settings updated.'
+		);
+		
+		echo json_encode($response);
+
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}

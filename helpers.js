@@ -78,23 +78,34 @@ jQuery( document ).ready(function() {
 		
 		var page = jQuery("#page").val();
 		var token = jQuery("#wordpress-token").val();
+		var section = jQuery('.nav-tab-active').attr('data-section');
 		
 		jQuery("#settings-spinner").addClass("is-active");
-		console.log(data);
+
+		
 		jQuery.ajax({
            type: "POST",
            url: ajaxurl,
+		   dataType: "json",
 		   data: ({ 
 			   action: 'sse_save_options', 
 			   data:data,
 			   page:page,
-			   security:token
+			   security:token,
+			   section:section
 			   }
 		   ), // serializes the form's elements.
            success: function(response)
            {
-			   jQuery("#ajax-messages").get(0).scrollIntoView();
-			   jQuery("#ajax-messages").html(response);
+			   if(response.value == 1){
+				   
+				   successAlert(response.message);
+				   
+			   }else if(response.value == 0){
+				   
+				   errorAlert(response.message);
+			   }
+			   
 			   jQuery("#settings-spinner").removeClass("is-active");
            }
         });
@@ -102,31 +113,46 @@ jQuery( document ).ready(function() {
 		e.preventDefault();
 	});
 	
-    jQuery(".sse-switch").change(function() {
+	
+	function showAllfields(tag){
 		
-		if(this.checked){
-			var level = jQuery(this).parent().attr("data-level");
+			var level = jQuery(tag).parent().attr("data-level");
 			var initial = level;
 			level++;
 			
-			var par = jQuery(this).parent();
+			var par = jQuery(tag).parent();
 			
 			while(1){
-					
+				var nextE =	par.next().find('.sse-switch');
 				var nextL = par.next().attr("data-level");
+				
 				var nextelement = par.next();
-					
+			
+				var value = jQuery(nextelement).find('.sse-switch').prop('checked');
+			
 				if(nextelement.attr("data-level") == undefined || nextelement.attr("data-level") <= initial){
 					break;
-				}	
-					
+				}
+				
+				if(value == true && nextL == level){
+					showAllfields(nextE);
+				}
+				
 				if(nextL == level){
 					nextelement.show();
 				}
 					
 				par = par.next();
 			}
+	}
+
+	
+    jQuery(".sse-switch").change(function() {
+		
+		if(this.checked){
 			
+			showAllfields(this);
+
 		}else{
 			
 			var level = jQuery(this).parent().attr("data-level");

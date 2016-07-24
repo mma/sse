@@ -10,15 +10,7 @@
 */
 if ( ! defined( 'ABSPATH' ) ) exit;//exit if accessed directly
 
-require(plugin_dir_path( __FILE__ ).'Sse.php');
-require(plugin_dir_path( __FILE__ ).'Sse_basic.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_checkbox.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_number.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_switch.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_select.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_image_select.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_color.class.php');
-require(plugin_dir_path( __FILE__ ).'Sse_text.class.php');
+require_once(plugin_dir_path( __FILE__ ).'autoload.php');
 
 $args = array(
 "page-title"=>"test",
@@ -378,6 +370,19 @@ $test = array(
 				'subtitle' => __('Auto delete post at a given number of dislikes', $domain),
 				'default'  => '10'
 			),array(
+				'id'       => 'v_enable_deletesdsd',
+				'type'     => 'switch',
+				'required' => array(array('v-switch-posts','equals','1'),array('v_enable_delete','equals','1')),
+				'title'    => __('Enable Auto delete post', $domain),
+				'default'  => false,
+			),array(
+				'id'       => 'v_delete_numbersd',
+				'type'     => 'number',
+				'required' => array(array('v-switch-posts','equals','1'),array('v_enable_delete','equals','1'),array('v_enable_deletesdsd','equals','1')),
+				'title'    => __('Number of dislikes:', $domain),
+				'subtitle' => __('Auto delete post at a given number of dislikes', $domain),
+				'default'  => '10'
+			),array(
 			'id'       => 'v-switch-fdfddf',
 			'type'     => 'switch', 
 			'title'    => __('You see this', $domain),
@@ -431,5 +436,7 @@ $test2 = array(
 );
 Sse::setSection("rating",$test);
 Sse::setSection("rating",$test2);
+
+$a = filter_var('', FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 
 ?>

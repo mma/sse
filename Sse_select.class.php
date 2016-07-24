@@ -1,23 +1,14 @@
 <?php
 
-class Sse_select extends Sse_Basic {
+final class Sse_select extends Sse_Basic {
 	
-	//protected $fields = array();
 	protected $options = array();
 	protected $data;
 	protected $output = array();
 	protected $multi;
-	protected $value;
-	
-	function __toString(){
-		return $this->title;
-	}
 	
 	public function __construct(array $fields){
-		foreach($fields as $k=>$v){
-			$this->$k = $v;
-			
-		}
+		parent::__construct($fields);
 	}
 	
 	public function display(){
@@ -38,35 +29,35 @@ class Sse_select extends Sse_Basic {
 		
 		?>
 		
-		<h4 class="field-title"><?php echo $this->title ?></h4>
+		<h4 class="field-title"><?php echo esc_html($this->title) ?></h4>
 		
 		<?php 
 		
 		if(isset($this->data) && ($this->data == "category" || $this->data == "post_types")){
 			
 			if($this->multi){
-				echo "<select name=".$this->id." multiple>";
+				echo "<select name=".esc_attr($this->id)." multiple>";
 			}else{
-				echo "<select>";
+				echo "<select name=".esc_attr($this->id).">";
 			}
 			if($this->data == "category"){
 				foreach($this->output as $categori){
-					if(in_array($categori->name,$this->value)){
+
+					if(in_array($categori->slug,$this->value)){
 						$selected = 'selected';
 					}else{
 						$selected = '';
 					}
-					echo "<option ".$selected.">".$categori->name."</option>";
+					echo "<option value=\"".esc_attr($categori->slug)."\" ".esc_attr($selected).">".esc_html($categori->name)."</option>";
 				}
 			}else{
 				foreach($this->output as $post_type){
-					
-					if(in_array($post_type->labels->name,$this->value)){
+					if(in_array($post_type->name,$this->value)){
 						$selected = 'selected';
 					}else{
 						$selected = '';
 					}
-					echo "<option ".$selected.">".$post_type->labels->name."</option>";
+					echo "<option value=\"".esc_attr($post_type->name)."\" ".esc_attr($selected).">".esc_html($post_type->labels->name)."</option>";
 				}
 			}
 
@@ -77,17 +68,28 @@ class Sse_select extends Sse_Basic {
 		
 		<?php foreach($this->options as $k=>$v){ ?>
 		
-			<span><?php echo $v ?></span>
-			<input value="<?php echo $k ?>"<?php echo ($k == $this->value) ? "checked":false; ?> type="radio" name="<?php echo $this->id ?>""> </input>
+			<span><?php echo esc_html($v) ?></span>
+			<input value="<?php echo esc_attr($k) ?>"<?php echo ($k == $this->value) ? "checked":false; ?> type="radio" name="<?php echo esc_attr($this->id) ?>""> </input>
 			
 		<?php } ?>
 		
 		
-		<span class="field-subtitle"> <?php  echo $this->subtitle ?></span>
-		<p class="field-desc"> <?php echo $this->desc ?> </p>
+		<span class="field-subtitle"> <?php  echo esc_html($this->subtitle) ?></span>
+		<p class="field-desc"> <?php echo esc_html($this->desc) ?> </p>
 		
 		
 		
 		<?php
+	}
+	
+	static function verify($value){
+		if(is_string($value)){
+			return sanitize_key($value);
+		}else{
+			foreach($value as $k=>$v){
+				$value[$k] = sanitize_key($v);
+			}
+		}
+		return $value;
 	}
 }

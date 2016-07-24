@@ -1,21 +1,11 @@
 <?php
 
-class Sse_color extends Sse_Basic {
-	
-	//protected $fields = array();
+final class Sse_color extends Sse_Basic {
 	
 	protected $check;
-	protected $value;
-	
-	function __toString(){
-		return $this->title;
-	}
 	
 	public function __construct(array $fields){
-		foreach($fields as $k=>$v){
-			$this->$k = $v;
-			
-		}
+		parent::__construct($fields);
 	}
 	
 	public function display(){
@@ -38,5 +28,9 @@ class Sse_color extends Sse_Basic {
 		
 		
 		<?php
+	}
+	
+	static function verify($value){
+		return sanitize_key($value);
 	}
 }
