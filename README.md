@@ -8,7 +8,7 @@ require_once(plugin_dir_path( __FILE__ ).'admin/autoload.php');
 ```
 That's all that is.Now let's get into the config file.
 Config file is where you are going to specify want fields you want and the default values.
-Supported fields type are:
+####Supported fields type are:
 - number
 - text
 - color
