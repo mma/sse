@@ -9,13 +9,13 @@ require_once(plugin_dir_path( __FILE__ ).'admin/autoload.php');
 That's all that is.Now let's get into the config file.
 Config file is where you are going to specify want fields you want and the default values.
 Supported fields type are:
--number
--text
--color
--image_select
--switch (basily a checkbox)
--checkbox(here you can use multiple checkbox)
--select(simple radio buttons or select wp categories or wp posttypes)
+- number
+- text
+- color
+- image_select
+- switch (basily a checkbox)
+- checkbox(here you can use multiple checkbox)
+- select(simple radio buttons or select wp categories or wp posttypes)
 
 If you want to activate the demo mode do
 ```PHP
@@ -67,7 +67,7 @@ I gues the switch type is pretty simple.Defaults can be true or false.
 
 Checkbox field type
 ```PHP
-,array(
+			,array(
 				'id'       => 'v_test',
 				'type'     => 'checkbox',
 				'title'    => __('Buttons position', $domain), 
@@ -134,11 +134,12 @@ Text field
 				'title'    => __('Custom text for dislike', $domain),
 				'default'  => 'Thank you for voting',
 			)
-			```
+			
+```
 			
 Number
 ```PHP
-,array(
+			,array(
 				'id'       => 'v_delete_number',
 				'type'     => 'number',
 				'title'    => __('Number of dislikes:', $domain),
@@ -147,13 +148,13 @@ Number
 				'minim'     => 4, //not necesary
 				'maxim'		=> 440, //not necesary
 			)
-	```
+```
 	
 Image select 
 ```PHP
 $dir = plugin_dir_url( __FILE__ );
 $style = 'Image select alt';
-,array(
+			,array(
 				'id'       => 'v_button_style',
 				'type'     => 'image_select',
 				'title'    => __('Buttons style', $domain), 
@@ -223,7 +224,7 @@ $style = 'Image select alt';
 Also for select we have category select 
 
 ```PHP
-,array(
+		,array(
 			'id'       => 'v_exclude_category',
 			'type'     => 'select',
 			'multi'	   => true, // false for 1 option only
@@ -231,7 +232,7 @@ Also for select we have category select
 			'subtitle' => __('Here you can exclude categories where you DON\'T want the buttons to show. ',$domain),
 			'desc'	   => __('Only categories that have at least 1 post will be shown.',$domain),
 			'data'	   => 'category',
-			)
+		)
 			//this is show all categoryes with  >= 1 post
 
 ```
@@ -240,21 +241,21 @@ And post type select
 
 ```PHP
 
-		    ,array(
+		,array(
 			'id'       => 'v_exclude_post_types-p',
 			'type'     => 'select',
 			'multi'	   => true, //false for 1 option only
 			'title'    => __('Exclude post types', $domain), 
 			'subtitle' => __('Here you can exclude post types where you DON\'T want the buttons, custom columns and the box to show. ',$domain),
 			'data'	   => 'post_types',
-			)
+		)
 ```
 
 Also nested options are support but only the switch type can be the parent
 
 ```PHP
 
-		    ,array(
+		,array(
 			'id'       => 'v_exclude_post_types-p',
 			'type'     => 'select',
 			'multi'	   => true, //false for 1 option only
@@ -266,7 +267,7 @@ Also nested options are support but only the switch type can be the parent
 			//'required' => array(array('v-switch-posts'),array('v_custom_text')),
 			//when the switch is true the options will appear
 			//only use the id's of switch field type the rest are not supported
-			)
+		)
 ```
 
 For more customization we can add your own html before and after the options.
