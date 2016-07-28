@@ -1,6 +1,6 @@
 ### SSE - Simple settings framework for Wp plugins developers
 Ain't got time to spend on a settings page and want to focus on the plugin itself?Than Sse should do the job for simple and medium complexity plugins.
-Screenshots in the screenshots folder.
+######Screenshots in the screenshots folder.
 ##### Getting started
 Copy the admin folder in your plugin then simply do 
 ```PHP
