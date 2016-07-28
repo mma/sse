@@ -1,8 +1,7 @@
 <?php
 
-final class Sse_image_select extends Sse_Basic {
+final class Sse_checkbox extends Sse_Basic{
 	
-	protected $check;
 	protected $options = array();
 	
 	public function __construct(array $fields){
@@ -11,17 +10,15 @@ final class Sse_image_select extends Sse_Basic {
 	
 	public function display(){
 		$max = count($this->options);
-
+		
 		?>
 		
 		<h4 class="field-title"><?php echo esc_html($this->title) ?></h4>
 		
 		<?php foreach($this->options as $k=>$v){ ?>
-		
-		<div class="inline-image">
-			<img class="image" alt="<?php echo esc_attr($v['alt']) ?>" src="<?php echo esc_url($v["img"]) ?>">
-			<input value="<?php echo esc_attr($k) ?>" <?php echo ($k == $this->value) ? "checked":false; ?> class="select-image" type="radio" name="<?php echo esc_attr($this->id) ?>""> </input>
-		</div>	
+			<span><?php echo esc_html($v) ?></span>
+			<input class="<?php echo esc_attr($this->id) ?>" value="<?php echo esc_attr($k) ?>" <?php echo ($this->value[$k]) ? "checked":false; ?> type="checkbox" name="<?php echo esc_attr($this->id) ?>"> </input>
+			<br>
 		<?php } ?>
 		
 		
@@ -33,7 +30,12 @@ final class Sse_image_select extends Sse_Basic {
 		<?php
 	}
 	
-	static function verify($value){
-		return sanitize_key($value);
+	static public function verify($values){
+		
+		foreach($values as $k=>$v){
+			$values[$k] = filter_var($v, FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+		}
+		return $values;
 	}
+
 }

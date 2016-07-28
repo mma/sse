@@ -2,8 +2,6 @@
 
 final class Sse_color extends Sse_Basic {
 	
-	protected $check;
-	
 	public function __construct(array $fields){
 		parent::__construct($fields);
 	}

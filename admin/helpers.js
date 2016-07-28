@@ -64,14 +64,16 @@ jQuery( document ).ready(function() {
 			}else{
 				var value  = jQuery(this).children("select").val();
 				var name  = jQuery(this).children("select").attr('name');
+
 				if(value != null && value != undefined && value.length){
 					var size = value.length;
 					var array = {};
 					for(var i=0;i<size;i++){
 						array[i] = value[i];
 					}
-					
 					data[name] = array;
+				}else{
+					data[name] = '';;
 				}
 			}
 		});
@@ -82,7 +84,6 @@ jQuery( document ).ready(function() {
 		
 		jQuery("#settings-spinner").addClass("is-active");
 
-		
 		jQuery.ajax({
            type: "POST",
            url: ajaxurl,

@@ -4,7 +4,6 @@ final class Sse_select extends Sse_Basic {
 	
 	protected $options = array();
 	protected $data;
-	protected $output = array();
 	protected $multi;
 	
 	public function __construct(array $fields){
@@ -43,7 +42,7 @@ final class Sse_select extends Sse_Basic {
 			if($this->data == "category"){
 				foreach($this->output as $categori){
 
-					if(in_array($categori->slug,$this->value)){
+					if($this->value != null && in_array($categori->slug,$this->value)){
 						$selected = 'selected';
 					}else{
 						$selected = '';
@@ -52,7 +51,8 @@ final class Sse_select extends Sse_Basic {
 				}
 			}else{
 				foreach($this->output as $post_type){
-					if(in_array($post_type->name,$this->value)){
+					
+					if($this->value != null  && in_array($post_type->name,$this->value)){
 						$selected = 'selected';
 					}else{
 						$selected = '';

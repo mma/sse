@@ -95,14 +95,21 @@ class Sse {
 				$section = key(self::$sections[$page]);
 			}
 		}
-		
+		if(self::$sections[$page][$section] == NULL){
+			echo 'Invalid section';
+			exit();
+		}
 		
 		if(self::$sections[$page] != null){
 			
 			self::setDefault(self::$sections[$page],$page);
 			
+			do_action('sse_header_'.$page);
+			
 			echo '<div class="wrap">';
 			echo '<h2 class="nav-tab-wrapper">';
+			
+	
 			
 			foreach(self::$sections[$page] as $sec){
 				
@@ -120,6 +127,16 @@ class Sse {
 			}
 			
 			echo '</h2>';
+
+			if(!empty(self::$sections[$page][$section]['html'])){
+				if(file_exists(self::$sections[$page][$section]['html'])){
+					echo '<div class="form-settings">';
+					require(self::$sections[$page][$section]['html']);
+					echo '</div>';
+					do_action('sse_footer_'.$page);
+				}
+				return;
+			}
 			
 			echo '<form class="form-settings" method="post">';
 			
@@ -170,7 +187,7 @@ class Sse {
 				
 				
 			<?php } ?>
-			
+			<?php if(!empty(self::$sections[$page][$section]["fields"])){ ?>
 				<div class="submit" style="clear: both;display:inline-block">
 				  <input id="submit-update" type="submit" name="Submit" class="button-primary" value="Update Settings">
 				  <div id="settings-spinner" class="spinner"></div>
@@ -180,6 +197,9 @@ class Sse {
 			   </form>
 			</div>
 			<?php
+			
+			do_action('sse_footer_'.$page);
+			}
 		}
 
 	}
@@ -266,8 +286,7 @@ class Sse {
 			add_action( 'load-' . $page, array("Sse",'load_admin_js') );
 	
 		}
-	
-
 	}
-	
 }
+
+Sse::init();
