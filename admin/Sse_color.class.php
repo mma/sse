@@ -28,7 +28,12 @@ final class Sse_color extends Sse_Basic {
 		<?php
 	}
 	
-	static function verify($value){
-		return sanitize_key($value);
-	}
+	static function verify($color){
+		// 3 or 6 hex digits, or the empty string.
+		if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+			return $color;
+		}else{
+			return '';
+		}
+	}	
 }
