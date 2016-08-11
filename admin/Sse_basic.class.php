@@ -16,5 +16,4 @@ abstract class Sse_Basic {
 	}
 	
 	abstract protected function display();
-	abstract static protected function verify($value);
 }

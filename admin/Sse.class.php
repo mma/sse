@@ -12,13 +12,8 @@ class Sse {
 			
 			$class_name = "Sse_".$field["type"];
 			
-			foreach($field as $k => $v){
-				if(!property_exists($class_name,$k)){
-					unset($field[$k]);
-				}
-			}
-			
 			$input= new $class_name($field);
+			
 			$input->display();
 			
 	}
@@ -35,7 +30,9 @@ class Sse {
 		
 		foreach($options as $option){
 			foreach($option['fields'] as $value){
-				$data[$value['id']] = $value['default'];
+				if(isset($value['default'])){
+					$data[$value['id']] = $value['default'];
+				}
 			}
 		}
 
@@ -68,7 +65,7 @@ class Sse {
 		add_action( 'admin_enqueue_scripts', array("Sse",'load_custom_wp_admin_style' ));
 	}
 	
-	function load_custom_wp_admin_style() {
+	static function load_custom_wp_admin_style() {
         wp_register_style( 'custom_wp_admin_css_sse', plugin_dir_url( __FILE__ ).'style.css', false, '1.0.0' );
         wp_enqueue_style( 'custom_wp_admin_css_sse' );
 		wp_register_style( 'spectrum-css', plugin_dir_url( __FILE__ ).'vendor/spectrum.css', false, '1.0.0' );
@@ -87,7 +84,12 @@ class Sse {
 	
 	static function render_page(){
 		$page = $_GET['page'];
-		$section = $_GET['section'];
+		if(isset($_GET['section'])){
+			$section = $_GET['section'];
+		}else{
+			$section = NULL;
+		}
+		
 		
 		if(self::$sections[$page] != NULL){
 			
@@ -149,25 +151,25 @@ class Sse {
 				//required multi level
 				$level = 0;
 				$show = 0;
-				
-				if(is_array($field["required"][0])){
-					foreach($field["required"] as $required){
-						
-						if($values[$required[0]] == false){
-							$show++;
+				if(isset($field['required'])){
+					if(is_array($field["required"][0])){
+						foreach($field["required"] as $required){
+							
+							if($values[$required[0]] == false){
+								$show++;
+							}
+							
+							
+							$level++;
 						}
+					}else if(is_string($field["required"][0])){
 						
-						
-						$level++;
+							if($values[$field["required"][0]] == false){
+								$show++;
+							}
+							$level++;
 					}
-				}else if(is_string($field["required"][0])){
-					
-						if($values[$field["required"][0]] == false){
-							$show++;
-						}
-						$level++;
 				}
-				
 				if($show == 0){
 						$class="";
 					}else{
@@ -179,6 +181,7 @@ class Sse {
 				}
 				$margin = $level * 20;
 				?>
+				
 				<div style="margin-left:<?php echo esc_attr($margin)?>px" data-level="<?php echo esc_attr($level) ?>" class="inline-field settings-level-<?php echo esc_attr($level) ?> <?php echo esc_attr($field["type"])?> <?php echo esc_attr($class) ?>">
 					<?php self::processField($field); ?>
 					<hr>

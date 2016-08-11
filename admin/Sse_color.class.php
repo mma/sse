@@ -35,5 +35,5 @@ final class Sse_color extends Sse_Basic {
 		}else{
 			return '';
 		}
-	}	
+	}
 }
