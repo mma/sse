@@ -6,7 +6,7 @@ if (!function_exists('array_column')) {
 
 if(!function_exists('sse_autoloader')){
 	
-	function __autoload($name){
+	function sse_autoloader($name){
 		
 		$class_name = $name.'.class.php';
 		$path = plugin_dir_path( __FILE__ ).$class_name;
@@ -16,3 +16,4 @@ if(!function_exists('sse_autoloader')){
 		}
 	}
 }
+spl_autoload_register('sse_autoloader');
