@@ -1,6 +1,6 @@
 <?php
 
-abstract class Sse_Basic {
+abstract class Sse_basic {
 	
 	protected $title;
 	protected $desc;

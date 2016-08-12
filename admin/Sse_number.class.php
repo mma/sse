@@ -1,5 +1,5 @@
 <?php
-final class Sse_number extends Sse_Basic {
+final class Sse_number extends Sse_basic {
 
 	protected $minim;
 	protected $maxim;

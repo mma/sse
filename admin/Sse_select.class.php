@@ -1,6 +1,6 @@
 <?php
 
-final class Sse_select extends Sse_Basic {
+final class Sse_select extends Sse_basic {
 	
 	protected $options = array();
 	protected $data;

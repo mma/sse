@@ -1,6 +1,6 @@
 <?php
 
-final class Sse_switch extends Sse_Basic {
+final class Sse_switch extends Sse_basic {
 	
 	public function __construct(array $fields){
 		parent::__construct($fields);
