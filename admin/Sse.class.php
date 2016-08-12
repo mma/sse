@@ -243,7 +243,7 @@ class Sse {
 		if(!current_user_can( $capability )){
 			wp_die();
 		}
-		
+	
 		$db_options = get_option($page);
 		
 		$fields = self::$sections[$page][$_POST['section']]['fields'];
@@ -251,14 +251,15 @@ class Sse {
 		$type = array_column($fields,'type','id');
 		
 		foreach($_POST['data'] as $k=>$v){
-			
+				
 			$class_name = "Sse_".$type[$k];
-			$test = $class_name::verify($v);
+			$test = call_user_func(array($class_name, 'verify'), $v);
+			
 			
 			$_POST['data'][$k] = $test;
 		}
 		
-		$test = array_replace($db_options,$_POST['data']);
+		$test = array_merge($db_options,$_POST['data']);
 		
 		update_option($page,$test);
 		
