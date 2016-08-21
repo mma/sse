@@ -68,14 +68,15 @@ class Sse {
 	static function load_custom_wp_admin_style() {
         wp_register_style( 'custom_wp_admin_css_sse', plugin_dir_url( __FILE__ ).'style.css', false, '1.0.0' );
         wp_enqueue_style( 'custom_wp_admin_css_sse' );
-		wp_register_style( 'spectrum-css', plugin_dir_url( __FILE__ ).'vendor/spectrum.css', false, '1.0.0' );
-		wp_enqueue_style( 'spectrum-css' );
 		wp_register_style( 'select-2-css', plugin_dir_url( __FILE__ ).'vendor/select2.min.css', false, '1.0.0' );
 		wp_enqueue_style( 'select-2-css' );
 		wp_register_style( 'jAlert-sse', plugin_dir_url( __FILE__ ).'vendor/jAlert-v4.css', false, '1.0.0' );
 		wp_enqueue_style( 'jAlert-sse' );
-		wp_enqueue_script( 'spectrum-js', plugin_dir_url( __FILE__ ).'vendor/spectrum.js', false );
-		wp_enqueue_script( 'sse-javascript-1', plugin_dir_url( __FILE__ ).'helpers.js', false );
+		/// WP COLOR PICKER
+		wp_enqueue_style( 'wp-color-picker');
+		wp_enqueue_script( 'wp-color-picker');
+		/****/
+		wp_enqueue_script( 'sse-javascript-1', plugin_dir_url( __FILE__ ).'helpers.js',true);
 		wp_enqueue_script( 'select-2-js', plugin_dir_url( __FILE__ ).'vendor/select2.full.min.js', false );
 		wp_enqueue_script( 'jAlert-sse', plugin_dir_url( __FILE__ ).'vendor/jAlert-v4.min.js', false );
 		wp_enqueue_script( 'jAlert-functions-sse', plugin_dir_url( __FILE__ ).'vendor/jAlert-functions.min.js', false );

@@ -42,8 +42,8 @@ jQuery( document ).ready(function() {
 		});
 		
 		jQuery('.color').each(function(i, obj) {
-			var value = jQuery(this).children("input").spectrum('get').toHexString();
-			var name  = jQuery(this).children("input").attr('name');
+			var value = jQuery(this).find(".wp-color-picker").val();
+			var name  = jQuery(this).find(".wp-color-picker").attr('name');
 			data[name] = value;
 		});
 		
