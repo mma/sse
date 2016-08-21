@@ -146,7 +146,9 @@ class Sse {
 			
 			foreach(self::$sections[$page][$section]["fields"] as $field){
 				
-				$field["value"] = $values[$field["id"]];
+				if(isset($values[$field["id"]])){
+					$field["value"] = $values[$field["id"]];	
+				}
 
 				//required multi level
 				$level = 0;
