@@ -12,16 +12,9 @@ final class Sse_color extends Sse_basic {
 		
 		<h4 class="field-title"><?php echo esc_html($this->title)?></h4>
 
-		<input value="<?php echo esc_attr($this->value) ?>" type="text" id="<?php echo esc_attr($this->id) ?>" name="<?php echo esc_attr($this->id) ?>"> </input>
-		<script>
-		jQuery( document ).ready(function() {
-			jQuery("#<?php echo esc_js($this->id)?>").wpColorPicker();
-		});
-		</script>
+		<input class="sse-color-field" value="<?php echo esc_attr($this->value) ?>" type="text" id="<?php echo esc_attr($this->id) ?>" name="<?php echo esc_attr($this->id) ?>"> </input>
 		<span class="field-subtitle"> <?php  echo esc_html($this->subtitle) ?></span>
 		<p class="field-desc"> <?php echo esc_html($this->desc) ?> </p>
-		
-		
 		
 		<?php
 	}

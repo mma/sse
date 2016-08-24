@@ -2,6 +2,8 @@
 
 jQuery( document ).ready(function() {
 	
+	jQuery(".sse-color-field").wpColorPicker();
+
 	jQuery('select').select2({ width: '25%' });
 	
 	jQuery(".form-settings").submit(function(e) {
