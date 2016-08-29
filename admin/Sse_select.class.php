@@ -5,6 +5,7 @@ final class Sse_select extends Sse_basic {
 	protected $options = array();
 	protected $data;
 	protected $multi;
+	protected $output = array();
 	
 	public function __construct(array $fields){
 		parent::__construct($fields);

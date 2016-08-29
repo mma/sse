@@ -1,4 +1,5 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1ea356b541fd43df86551e8f0089bc9f)](https://www.codacy.com/app/alexandru_mandric/sse?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AlexAlexandru/sse&amp;utm_campaign=Badge_Grade)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AlexAlexandru/sse/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AlexAlexandru/sse/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/AlexAlexandru/sse/badges/build.png?b=master)](https://scrutinizer-ci.com/g/AlexAlexandru/sse/build-status/master)
 ### SSE - Simple settings framework for Wp plugins developers
 Ain't got time to spend on a settings page and want to focus on the plugin itself?Than Sse should do the job for simple and medium complexity plugins.
 ######Screenshots in the screenshots folder.
