@@ -29,7 +29,7 @@ final class Sse_checkbox extends Sse_basic{
 		<?php
 	}
 	
-	static public function verify($values){
+	public static function verify($values){
 		
 		foreach($values as $k=>$v){
 			$values[$k] = filter_var($v, FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);

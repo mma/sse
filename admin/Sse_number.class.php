@@ -22,7 +22,7 @@ final class Sse_number extends Sse_basic {
 		<?php
 	}
 	
-	static function verify($value){
+	public static function verify($value){
 		return intval($value);
 	}
 }

@@ -82,7 +82,7 @@ final class Sse_select extends Sse_basic {
 		<?php
 	}
 	
-	static function verify($value){
+	public static function verify($value){
 		if(is_string($value)){
 			return sanitize_key($value);
 		}else{

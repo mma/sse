@@ -30,7 +30,7 @@ final class Sse_image_select extends Sse_basic {
 		<?php
 	}
 	
-	static function verify($value){
+	public static function verify($value){
 		return sanitize_key($value);
 	}
 }

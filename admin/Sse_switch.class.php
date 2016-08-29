@@ -22,7 +22,7 @@ final class Sse_switch extends Sse_basic {
 		<?php
 	}
 	
-	static function verify($value){
+	public static function verify($value){
 		return filter_var($value, FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
 	}
 }

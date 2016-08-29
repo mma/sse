@@ -4,11 +4,11 @@ class Sse {
 	static $args = array();
 	static $sections = array();
 
-	static function setSection($opt_name,array $settings){	
+	public static function setSection($opt_name,array $settings){	
 		self::$sections[$opt_name][$settings["id"]] = $settings;
 	}
 	
-	static function processField(array $field){
+	public static function processField(array $field){
 			
 			$class_name = "Sse_".$field["type"];
 			
@@ -18,11 +18,11 @@ class Sse {
 			
 	}
 	
-	static function setArgs($opt_name,array $args){
+	public static function setArgs($opt_name,array $args){
 		self::$args[$opt_name] = $args;
 	}
 	
-	static function setDefault(array $options,$option_name){
+	public static function setDefault(array $options,$option_name){
 		
 		$data = array();
 		
@@ -55,17 +55,17 @@ class Sse {
 
 	}
 	
-	static function init(){
+	public static function init(){
 		add_action('admin_menu', array( "Sse", 'add_admin_menu'));
 		add_action('wp_ajax_sse_save_options', array( "Sse", 'sse_save_options'));
 	}
 	
 	
-	static function load_admin_js(){
+	public static function load_admin_js(){
 		add_action( 'admin_enqueue_scripts', array("Sse",'load_custom_wp_admin_style' ));
 	}
 	
-	static function load_custom_wp_admin_style() {
+	public static function load_custom_wp_admin_style() {
         wp_register_style( 'custom_wp_admin_css_sse', plugin_dir_url( __FILE__ ).'style.css', false, '1.0.0' );
         wp_enqueue_style( 'custom_wp_admin_css_sse' );
 		wp_register_style( 'select-2-css', plugin_dir_url( __FILE__ ).'vendor/select2.min.css', false, '1.0.0' );
@@ -83,7 +83,7 @@ class Sse {
 	}
 
 	
-	static function render_page(){
+	public static function render_page(){
 		$page = $_GET['page'];
 		if(isset($_GET['section'])){
 			$section = $_GET['section'];
@@ -210,7 +210,7 @@ class Sse {
 
 	}
 
-	static function sse_save_options() {
+	public static function sse_save_options() {
 		
 		if(!is_admin()){
 			wp_die();
@@ -278,7 +278,7 @@ class Sse {
 	}
 	
 	
-	static function add_admin_menu(){
+	public static function add_admin_menu(){
 
 		foreach(self::$args as $arg){
 			$page = add_menu_page( 
