@@ -82,7 +82,9 @@ jQuery( document ).ready(function() {
 		var section = jQuery(".nav-tab-active").attr("data-section");
 		
 		jQuery("#settings-spinner").addClass("is-active");
-
+		
+		/** global: ajaxurl */
+		
 		jQuery.ajax({
            type: "POST",
            url: ajaxurl,
@@ -161,7 +163,6 @@ jQuery( document ).ready(function() {
 			
 			while(1){
 					
-				var nextL = par.next().attr("data-level");
 				var nextelement = par.next();
 				
 				if(nextelement.attr("data-level") === undefined || nextelement.attr("data-level") <= level){
