@@ -4,25 +4,25 @@ jQuery( document ).ready(function() {
 	
 	jQuery(".sse-color-field").wpColorPicker();
 
-	jQuery('select').select2({ width: '25%' });
+	jQuery("select").select2({ width: "25%" });
 	
 	jQuery(".form-settings").submit(function(e) {
 
 		var data ={};
 	
-		jQuery('.switch').each(function(i, obj) {
-			var value = jQuery(this).children("input").prop('checked');
-			var name  = jQuery(this).children("input").attr('name');
+		jQuery(".switch").each(function(i, obj) {
+			var value = jQuery(this).children("input").prop("checked");
+			var name  = jQuery(this).children("input").attr("name");
 			data[name] = value;
 		});
 		
-		jQuery('.checkbox').each(function(i, obj) {
+		jQuery(".checkbox").each(function(i, obj) {
 
-			var name  = jQuery(this).children("input").attr('name');
+			var name  = jQuery(this).children("input").attr("name");
 			var array = {};
 
 			jQuery("."+name).each(function(i, obj) {
-				var value = jQuery(this).prop('checked');
+				var value = jQuery(this).prop("checked");
 				var key = jQuery(this).val();
 				array[key] = value;
 			
@@ -31,25 +31,25 @@ jQuery( document ).ready(function() {
 			
 		});
 		
-		jQuery('.text, .number').each(function(i, obj) {
+		jQuery(".text, .number").each(function(i, obj) {
 			var value = jQuery(this).children("input").val();
-			var name  = jQuery(this).children("input").attr('name');
+			var name  = jQuery(this).children("input").attr("name");
 			data[name] = value;
 		});
 		
-		jQuery('.color').each(function(i, obj) {
+		jQuery(".color").each(function(i, obj) {
 			var value = jQuery(this).find(".wp-color-picker").val();
-			var name  = jQuery(this).find(".wp-color-picker").attr('name');
+			var name  = jQuery(this).find(".wp-color-picker").attr("name");
 			data[name] = value;
 		});
 		
-		jQuery('.image_select').each(function(i, obj) {
+		jQuery(".image_select").each(function(i, obj) {
 			var value = jQuery(this).find("input:checked").val();
-			var name  = jQuery(this).find("input").attr('name');
+			var name  = jQuery(this).find("input").attr("name");
 			data[name] = value;
 		});
 		
-		jQuery('.select').each(function(j, obj) {
+		jQuery(".select").each(function(j, obj) {
 
 			var radioButton  = jQuery(this).children("input").length;
 			
@@ -57,12 +57,12 @@ jQuery( document ).ready(function() {
 			var value;
 			
 			if(radioButton >= 1){
-				name  = jQuery(this).children("input").attr('name');
+				name  = jQuery(this).children("input").attr("name");
 				value = jQuery(this).children("input:checked").val();
 				data[name] = value;
 			}else{
 				value  = jQuery(this).children("select").val();
-				name  = jQuery(this).children("select").attr('name');
+				name  = jQuery(this).children("select").attr("name");
 
 				if(value != null && value !== undefined && value.length){
 					var size = value.length;
@@ -72,14 +72,14 @@ jQuery( document ).ready(function() {
 					}
 					data[name] = array;
 				}else{
-					data[name] = '';
+					data[name] = "";
 				}
 			}
 		});
 		
 		var page = jQuery("#page").val();
 		var token = jQuery("#wordpress-token").val();
-		var section = jQuery('.nav-tab-active').attr('data-section');
+		var section = jQuery(".nav-tab-active").attr("data-section");
 		
 		jQuery("#settings-spinner").addClass("is-active");
 
@@ -88,13 +88,13 @@ jQuery( document ).ready(function() {
            url: ajaxurl,
 		   dataType: "json",
 		   data: ({ 
-			   action: 'sse_save_options', 
+			   action: "sse_save_options", 
 			   data:data,
 			   page:page,
 			   security:token,
 			   section:section
 			   }
-		   ), // serializes the form's elements.
+		   ), // serializes the form"s elements.
            success: function(response)
            {
 			   if(response.value === 1){
@@ -123,12 +123,12 @@ jQuery( document ).ready(function() {
 			var par = jQuery(tag).parent();
 			
 			while(1){
-				var nextE =	par.next().find('.sse-switch');
+				var nextE =	par.next().find(".sse-switch");
 				var nextL = par.next().attr("data-level");
 				
 				var nextelement = par.next();
 			
-				var value = jQuery(nextelement).find('.sse-switch').prop('checked');
+				var value = jQuery(nextelement).find(".sse-switch").prop("checked");
 			
 				if(nextelement.attr("data-level") === undefined || nextelement.attr("data-level") <= initial){
 					break;

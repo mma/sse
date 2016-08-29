@@ -11,7 +11,6 @@ final class Sse_select extends Sse_basic {
 	}
 	
 	public function display(){
-		$max = count($this->options);
 		
 		if($this->data == "category"){
 			$this->output = get_categories();

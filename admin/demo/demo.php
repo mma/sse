@@ -19,6 +19,67 @@ Sse::setArgs($opt_name,$args);
 $dir = plugin_dir_url( __FILE__ );
 $style = 'Image select alt';
 $domain = 'myplugindomain';
+
+
+$images = array(
+						'1'      => array(
+							'alt'   => ''.$style.' 1', 
+							'img'   => $dir.'images/1.png'
+						),
+						'2'      => array(
+							'alt'   => ''.$style.' 2', 
+							'img'   => $dir.'images/2.png'
+						),
+						'3'      => array(
+							'alt'   => ''.$style.' 3', 
+							'img'   => $dir.'images/3.png'
+						),
+						'4'      => array(
+							'alt'   => ''.$style.' 4', 
+							'img'   => $dir.'images/4.png'
+						),
+						'5'      => array(
+							'alt'   => ''.$style.' 5', 
+							'img'   => $dir.'images/5.png'
+						),
+						'6'      => array(
+							'alt'  => ''.$style.' 6', 
+							'img'   => $dir.'images/6.png'
+						),
+						'7'      => array(
+							'alt'   => ''.$style.' 7', 
+							'img'   => $dir.'images/7.png'
+						),
+						'8'      => array(
+							'alt'   => ''.$style.' 8', 
+							'img'   => $dir.'images/8.png'
+						),
+						'9'      => array(
+							'alt'   => ''.$style.' 9', 
+							'img'   => $dir.'images/9.png'
+						),
+						'10'      => array(
+							'alt'   => ''.$style.' 10', 
+							'img'   => $dir.'images/10.png'
+						),
+						'11'      => array(
+							'alt'  => ''.$style.' 11', 
+							'img'   => $dir.'images/11.png'
+						),
+						'12'      => array(
+							'alt'   => ''.$style.' 12', 
+							'img'   => $dir.'images/12.png'
+						),
+						'13'      => array(
+							'alt'   => ''.$style.' 13', 
+							'img'   => $dir.'images/13.png'
+						),
+						'14'      => array(
+							'alt'   => ''.$style.' 14', 
+							'img'   => $dir.'images/14.png'
+						)
+					);
+					
 $tab1 = array(
         'title'  => __( 'Settings for posts and pages', $domain ),
         'id'     => 'basic',
@@ -90,64 +151,7 @@ $tab1 = array(
 				'required' => array('v-switch-posts'),
 				'title'    => __('Buttons style', $domain), 
 				'subtitle' => __('Here you can change the icons of the buttons.', $domain),
-				'options'  => array(
-						'1'      => array(
-							'alt'   => ''.$style.' 1', 
-							'img'   => $dir.'images/1.png'
-						),
-						'da'      => array(
-							'alt'   => ''.$style.' 2', 
-							'img'   => $dir.'images/2.png'
-						),
-						'3'      => array(
-							'alt'   => ''.$style.' 3', 
-							'img'   => $dir.'images/3.png'
-						),
-						'4'      => array(
-							'alt'   => ''.$style.' 4', 
-							'img'   => $dir.'images/4.png'
-						),
-						'5'      => array(
-							'alt'   => ''.$style.' 5', 
-							'img'   => $dir.'images/5.png'
-						),
-						'6'      => array(
-							'alt'  => ''.$style.' 6', 
-							'img'   => $dir.'images/6.png'
-						),
-						'7'      => array(
-							'alt'   => ''.$style.' 7', 
-							'img'   => $dir.'images/7.png'
-						),
-						'8'      => array(
-							'alt'   => ''.$style.' 8', 
-							'img'   => $dir.'images/8.png'
-						),
-						'9'      => array(
-							'alt'   => ''.$style.' 9', 
-							'img'   => $dir.'images/9.png'
-						),
-						'10'      => array(
-							'alt'   => ''.$style.' 10', 
-							'img'   => $dir.'images/10.png'
-						),
-						'11'      => array(
-							'alt'  => ''.$style.' 11', 
-							'img'  => $dir.'images/11.png'
-						),
-						'12'      => array(
-							'alt'   => ''.$style.' 12', 
-							'img'   => $dir.'images/12.png'
-						),
-						'13'      => array(
-							'alt'   => ''.$style.' 13', 
-							'img'   => $dir.'images/13.png'
-						),
-						'14'      => array(
-							'alt'   => ''.$style.' 14', 
-							'img'   => $dir.'images/14.png'
-						)
-					),
+				'options'  => $images,
 				'default' => '1'
 			),array(
 			'id'       => 'v-switch-columns',
@@ -420,64 +424,7 @@ Sse::setSection($opt_name,$tab1);
 				'required' => array('v-switch-comments'),
 				'title'    => __('Buttons style', $domain), 
 				'subtitle' => __('Here you can change the icons of the buttons.',$domain),
-				'options'  => array(
-						'1'      => array(
-							'alt'   => ''.$style.' 1', 
-							'img'   => $dir.'images/1.png'
-						),
-						'2'      => array(
-							'alt'   => ''.$style.' 2', 
-							'img'   => $dir.'images/2.png'
-						),
-						'3'      => array(
-							'alt'   => ''.$style.' 3', 
-							'img'   => $dir.'images/3.png'
-						),
-						'4'      => array(
-							'alt'   => ''.$style.' 4', 
-							'img'   => $dir.'images/4.png'
-						),
-						'5'      => array(
-							'alt'   => ''.$style.' 5', 
-							'img'   => $dir.'images/5.png'
-						),
-						'6'      => array(
-							'alt'  => ''.$style.' 6', 
-							'img'   => $dir.'images/6.png'
-						),
-						'7'      => array(
-							'alt'   => ''.$style.' 7', 
-							'img'   => $dir.'images/7.png'
-						),
-						'8'      => array(
-							'alt'   => ''.$style.' 8', 
-							'img'   => $dir.'images/8.png'
-						),
-						'9'      => array(
-							'alt'   => ''.$style.' 9', 
-							'img'   => $dir.'images/9.png'
-						),
-						'10'      => array(
-							'alt'   => ''.$style.' 10', 
-							'img'   => $dir.'images/10.png'
-						),
-						'11'      => array(
-							'alt'  => ''.$style.' 11', 
-							'img'   => $dir.'images/11.png'
-						),
-						'12'      => array(
-							'alt'   => ''.$style.' 12', 
-							'img'   => $dir.'images/12.png'
-						),
-						'13'      => array(
-							'alt'   => ''.$style.' 13', 
-							'img'   => $dir.'images/13.png'
-						),
-						'14'      => array(
-							'alt'   => ''.$style.' 14', 
-							'img'   => $dir.'images/14.png'
-						)
-					),
+				'options'  => $images,
 				'default' => '1'
 			),array(
 			'id'       => 'v-switch-columns-comment',

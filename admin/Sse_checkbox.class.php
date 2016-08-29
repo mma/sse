@@ -9,8 +9,6 @@ final class Sse_checkbox extends Sse_basic{
 	}
 	
 	public function display(){
-		$max = count($this->options);
-		
 		?>
 		
 		<h4 class="field-title"><?php echo esc_html($this->title) ?></h4>
