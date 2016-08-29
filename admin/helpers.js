@@ -31,13 +31,7 @@ jQuery( document ).ready(function() {
 			
 		});
 		
-		jQuery('.text').each(function(i, obj) {
-			var value = jQuery(this).children("input").val();
-			var name  = jQuery(this).children("input").attr('name');
-			data[name] = value;
-		});
-		
-		jQuery('.number').each(function(i, obj) {
+		jQuery('.text, .number').each(function(i, obj) {
 			var value = jQuery(this).children("input").val();
 			var name  = jQuery(this).children("input").attr('name');
 			data[name] = value;
@@ -55,19 +49,22 @@ jQuery( document ).ready(function() {
 			data[name] = value;
 		});
 		
-		jQuery('.select').each(function(i, obj) {
+		jQuery('.select').each(function(j, obj) {
 
 			var radioButton  = jQuery(this).children("input").length;
 			
+			var name;
+			var value;
+			
 			if(radioButton >= 1){
-				var name  = jQuery(this).children("input").attr('name');
-				var value = jQuery(this).children("input:checked").val();
+				name  = jQuery(this).children("input").attr('name');
+				value = jQuery(this).children("input:checked").val();
 				data[name] = value;
 			}else{
-				var value  = jQuery(this).children("select").val();
-				var name  = jQuery(this).children("select").attr('name');
+				value  = jQuery(this).children("select").val();
+				name  = jQuery(this).children("select").attr('name');
 
-				if(value != null && value != undefined && value.length){
+				if(value != null && value !== undefined && value.length){
 					var size = value.length;
 					var array = {};
 					for(var i=0;i<size;i++){
@@ -75,7 +72,7 @@ jQuery( document ).ready(function() {
 					}
 					data[name] = array;
 				}else{
-					data[name] = '';;
+					data[name] = '';
 				}
 			}
 		});
@@ -100,11 +97,11 @@ jQuery( document ).ready(function() {
 		   ), // serializes the form's elements.
            success: function(response)
            {
-			   if(response.value == 1){
+			   if(response.value === 1){
 				   
 				   successAlert(response.message);
 				   
-			   }else if(response.value == 0){
+			   }else if(response.value === 0){
 				   
 				   errorAlert(response.message);
 			   }
@@ -133,11 +130,11 @@ jQuery( document ).ready(function() {
 			
 				var value = jQuery(nextelement).find('.sse-switch').prop('checked');
 			
-				if(nextelement.attr("data-level") == undefined || nextelement.attr("data-level") <= initial){
+				if(nextelement.attr("data-level") === undefined || nextelement.attr("data-level") <= initial){
 					break;
 				}
 				
-				if(value == true && nextL == level){
+				if(value === true && nextL == level){
 					showAllfields(nextE);
 				}
 				
@@ -167,7 +164,7 @@ jQuery( document ).ready(function() {
 				var nextL = par.next().attr("data-level");
 				var nextelement = par.next();
 				
-				if(nextelement.attr("data-level") == undefined || nextelement.attr("data-level") <= level){
+				if(nextelement.attr("data-level") === undefined || nextelement.attr("data-level") <= level){
 					break;
 				}
 					
