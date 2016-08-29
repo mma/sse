@@ -4,14 +4,14 @@ if (!function_exists('array_column')) {
     require_once(plugin_dir_path(__FILE__).'/vendor/array_column.php');
 }
 
-if(!function_exists('sse_framework_autoloader')){
+if (!function_exists('sse_framework_autoloader')) {
 	
-	function sse_framework_autoloader($name){
+	function sse_framework_autoloader($name) {
 		
 		$class_name = $name.'.class.php';
-		$path = plugin_dir_path( __FILE__ ).$class_name;
+		$path = plugin_dir_path(__FILE__).$class_name;
 		
-		if(file_exists($path)){
+		if (file_exists($path)) {
 			require_once($class_name);
 		}
 	}
