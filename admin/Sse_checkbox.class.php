@@ -1,22 +1,22 @@
 <?php
 
-final class Sse_checkbox extends Sse_basic{
+final class Sse_checkbox extends Sse_basic {
 	
 	protected $options = array();
 	
-	public function __construct(array $fields){
+	public function __construct(array $fields) {
 		parent::__construct($fields);
 	}
 	
-	public function display(){
+	public function display() {
 		?>
 		
 		<h4 class="field-title"><?php echo esc_html($this->title) ?></h4>
 		
-		<?php foreach($this->options as $k=>$v){ ?>
+		<?php foreach ($this->options as $k=>$v) { ?>
 		
 			<span><?php echo esc_html($v) ?></span>
-			<input class="<?php echo esc_attr($this->id) ?>" value="<?php echo esc_attr($k) ?>" <?php echo ($this->value[$k]) ? "checked":false; ?> type="checkbox" name="<?php echo esc_attr($this->id) ?>"> </input>
+			<input class="<?php echo esc_attr($this->id) ?>" value="<?php echo esc_attr($k) ?>" <?php echo ($this->value[$k]) ? "checked" : false; ?> type="checkbox" name="<?php echo esc_attr($this->id) ?>"> </input>
 			<br>
 		<?php } ?>
 		
@@ -29,10 +29,10 @@ final class Sse_checkbox extends Sse_basic{
 		<?php
 	}
 	
-	public static function verify($values){
+	public static function verify($values) {
 		
-		foreach($values as $k=>$v){
-			$values[$k] = filter_var($v, FILTER_VALIDATE_BOOLEAN,FILTER_NULL_ON_FAILURE);
+		foreach ($values as $k=>$v) {
+			$values[$k] = filter_var($v, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 		}
 		return $values;
 	}
