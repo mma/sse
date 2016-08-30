@@ -7,15 +7,15 @@ final class Sse_select extends Sse_basic {
 	protected $multi;
 	protected $output = array();
 	
-	public function __construct(array $fields){
+	public function __construct(array $fields) {
 		parent::__construct($fields);
 	}
 	
-	public function display(){
+	public function display() {
 		
-		if($this->data == "category"){
+		if ($this->data == "category") {
 			$this->output = get_categories();
-		}else if($this->data == "post_types"){
+		}else if ($this->data == "post_types") {
 			
 			$args = array(
 			   'public' => true,
@@ -23,7 +23,7 @@ final class Sse_select extends Sse_basic {
 
 			$output = 'objects'; // names or objects
 		
-			$this->output = get_post_types( $args, $output );
+			$this->output = get_post_types($args, $output);
 		}
 		
 		?>
@@ -32,29 +32,29 @@ final class Sse_select extends Sse_basic {
 		
 		<?php 
 		
-		if(isset($this->data) && ($this->data == "category" || $this->data == "post_types")){
+		if (isset($this->data) && ($this->data == "category" || $this->data == "post_types")) {
 			
-			if($this->multi){
+			if ($this->multi) {
 				echo "<select name=".esc_attr($this->id)." multiple>";
-			}else{
+			}else {
 				echo "<select name=".esc_attr($this->id).">";
 			}
-			if($this->data == "category"){
-				foreach($this->output as $categori){
+			if ($this->data == "category") {
+				foreach ($this->output as $categori) {
 
-					if($this->value != null && in_array($categori->slug,$this->value)){
+					if ($this->value != null && in_array($categori->slug, $this->value)) {
 						$selected = 'selected';
-					}else{
+					}else {
 						$selected = '';
 					}
 					echo "<option value=\"".esc_attr($categori->slug)."\" ".esc_attr($selected).">".esc_html($categori->name)."</option>";
 				}
-			}else{
-				foreach($this->output as $post_type){
+			}else {
+				foreach ($this->output as $post_type) {
 					
-					if($this->value != null  && in_array($post_type->name,$this->value)){
+					if ($this->value != null && in_array($post_type->name, $this->value)) {
 						$selected = 'selected';
-					}else{
+					}else {
 						$selected = '';
 					}
 					echo "<option value=\"".esc_attr($post_type->name)."\" ".esc_attr($selected).">".esc_html($post_type->labels->name)."</option>";
@@ -66,10 +66,10 @@ final class Sse_select extends Sse_basic {
 		
 		?>
 		
-		<?php foreach($this->options as $k=>$v){ ?>
+		<?php foreach ($this->options as $k=>$v) { ?>
 		
 			<span><?php echo esc_html($v) ?></span>
-			<input value="<?php echo esc_attr($k) ?>"<?php echo ($k == $this->value) ? "checked":false; ?> type="radio" name="<?php echo esc_attr($this->id) ?>""> </input>
+			<input value="<?php echo esc_attr($k) ?>"<?php echo ($k == $this->value) ? "checked" : false; ?> type="radio" name="<?php echo esc_attr($this->id) ?>""> </input>
 			
 		<?php } ?>
 		
@@ -82,11 +82,11 @@ final class Sse_select extends Sse_basic {
 		<?php
 	}
 	
-	public static function verify($value){
-		if(is_string($value)){
+	public static function verify($value) {
+		if (is_string($value)) {
 			return sanitize_key($value);
-		}else{
-			foreach($value as $k=>$v){
+		}else {
+			foreach ($value as $k=>$v) {
 				$value[$k] = sanitize_key($v);
 			}
 		}

@@ -2,11 +2,11 @@
 
 final class Sse_color extends Sse_basic {
 	
-	public function __construct(array $fields){
+	public function __construct(array $fields) {
 		parent::__construct($fields);
 	}
 	
-	public function display(){
+	public function display() {
 		
 		?>
 		
@@ -19,9 +19,9 @@ final class Sse_color extends Sse_basic {
 		<?php
 	}
 	
-	public static function verify($color){
+	public static function verify($color) {
 		// 3 or 6 hex digits, or the empty string.
-		if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+		if (preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color)) {
 			return $color;
 		}
 		return "#000000";
