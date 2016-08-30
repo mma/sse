@@ -11,6 +11,23 @@ final class Sse_select extends Sse_basic {
 		parent::__construct($fields);
 	}
 	
+	private function getName($item ,$data = 0) {
+		if($this->data == "category"){
+			if($data == 1){
+				return $item->slug;
+			}else{
+				return $item->name;
+			}
+		}
+		
+		if($data == 1){
+			return $item->name;
+		}else{
+			return $item->labels->name;
+		}
+		
+	}
+	
 	public function display() {
 		
 		if ($this->data == "category") {
@@ -39,29 +56,18 @@ final class Sse_select extends Sse_basic {
 			}else {
 				echo "<select name=".esc_attr($this->id).">";
 			}
-			if ($this->data == "category") {
-				foreach ($this->output as $categori) {
 
-					if ($this->value != null && in_array($categori->slug, $this->value)) {
-						$selected = 'selected';
-					}else {
-						$selected = '';
-					}
-					echo "<option value=\"".esc_attr($categori->slug)."\" ".esc_attr($selected).">".esc_html($categori->name)."</option>";
+			foreach ($this->output as $item) {
+
+				if ($this->value != null && in_array($this->getName($item,1), $this->value)) {
+					$selected = 'selected';
+				}else {
+					$selected = '';
 				}
-			}else {
-				foreach ($this->output as $post_type) {
-					
-					if ($this->value != null && in_array($post_type->name, $this->value)) {
-						$selected = 'selected';
-					}else {
-						$selected = '';
-					}
-					echo "<option value=\"".esc_attr($post_type->name)."\" ".esc_attr($selected).">".esc_html($post_type->labels->name)."</option>";
-				}
+				echo "<option value=\"".esc_attr($this->getName($item,1))."\" ".esc_attr($selected).">".esc_html($this->getName($item))."</option>";
 			}
-
-				echo "</select>";
+			
+			echo "</select>";
 		}
 		
 		?>

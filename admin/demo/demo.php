@@ -609,5 +609,3 @@ add_action('sse_footer_'.$opt_name,'my_custom_donate_button');
 //add_action('sse_header_'.$opt_name,'my_custom_donate_button');
 			
 $a = get_option('my_awesome_plugin');
-
-?>
