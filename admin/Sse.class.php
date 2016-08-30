@@ -1,14 +1,14 @@
 <?php
-class Sse {
+final class Sse {
 	
-	static $args = array();
-	static $sections = array();
+	private static $args = array();
+	private static $sections = array();
 
 	public static function setSection($opt_name, array $settings) {	
 		self::$sections[$opt_name][$settings["id"]] = $settings;
 	}
 	
-	public static function processField(array $field) {
+	private static function processField(array $field) {
 			
 			$class_name = "Sse_".$field["type"];
 			
@@ -22,7 +22,7 @@ class Sse {
 		self::$args[$opt_name] = $args;
 	}
 	
-	public static function setDefault(array $options, $option_name) {
+	private static function setDefault(array $options, $option_name) {
 		
 		$data = array();
 		
@@ -82,6 +82,94 @@ class Sse {
 		wp_enqueue_script('jAlert-functions-sse', plugin_dir_url(__FILE__).'vendor/jAlert-functions.min.js', false);
 	}
 
+	private static function navigation($page , $section){
+		echo '<div class="wrap">';
+			
+		echo '<h2 class="nav-tab-wrapper">';
+		
+		foreach (self::$sections[$page] as $sec) {
+			
+			if ($sec["id"] == $section) {
+				$class = "nav-tab-active";
+			}else {
+				$class = "";
+			}
+			
+			?>
+
+				<a data-section="<?php echo esc_attr($sec['id']); ?>" href="<?php echo "?page=".esc_attr($page)."&section=".esc_attr($sec["id"]) ?>" class="nav-tab <?php echo esc_attr($class) ?> <?php echo esc_attr($sec["id"])?>"><?php echo esc_html($sec["title"])?></a>
+			<?php
+		}
+
+		echo '</h2>';
+	}
+	
+	private static function update_button($page , $section){
+		?>
+			<?php if (!empty(self::$sections[$page][$section]["fields"])) { ?>
+				<div class="submit" style="clear: both;display:inline-block">
+				  <input id="submit-update" type="submit" name="Submit" class="button-primary" value="Update Settings">
+				  <div id="settings-spinner" class="spinner"></div>
+				</div>
+				<input id="page" type="hidden" value="<?php echo esc_attr($page) ?>"></input>
+				<input id="wordpress-token" type="hidden" value="<?php echo wp_create_nonce('sse-update-settings'); ?>"></input>
+			   </form>
+			</div>
+			<?php
+			
+			}
+	}
+	
+	private static function nested_options($values, array $field){
+		
+		$level = 0;
+		$show = 0;
+		if (isset($field['required'])) {
+			if (is_array($field["required"][0])) {
+				foreach ($field["required"] as $required) {
+					if ($values[$required[0]] == false) {
+						$show++;
+					}				
+					$level++;
+				}
+			}else if (is_string($field["required"][0])) {
+						
+				if ($values[$field["required"][0]] == false) {
+					$show++;
+				}
+				$level++;
+			}
+		}
+				
+		if ($show == 0) {
+			$class = "";
+		}else {
+			$class = "hide-this-pls";
+		}
+				
+		if ($level == 0) {
+			$class = "";
+		}
+		$margin = $level * 20;
+		
+		return array(
+			'level'  => $level,
+			'class'  => $class,
+			'margin' => $margin
+		);
+	}
+	
+	private static function include_file($page,$section){
+		if (!empty(self::$sections[$page][$section]['html'])) {
+			if (file_exists(self::$sections[$page][$section]['html'])) {
+				echo '<div class="form-settings">';
+				require(self::$sections[$page][$section]['html']);
+				echo '</div>';
+				do_action('sse_footer_'.$page);
+			}
+			exit();
+		}
+	}
 	
 	public static function render_page() {
 		$page = $_GET['page'];
@@ -98,7 +186,7 @@ class Sse {
 				$section = key(self::$sections[$page]);
 			}
 		}
-		if (self::$sections[$page][$section] == NULL) {
+		if (!isset(self::$sections[$page][$section])) {
 			echo 'Invalid section';
 			exit();
 		}
@@ -109,37 +197,10 @@ class Sse {
 			
 			do_action('sse_header_'.$page);
 			
-			echo '<div class="wrap">';
-			echo '<h2 class="nav-tab-wrapper">';
+			self::navigation($page, $section);
 			
-	
-			
-			foreach (self::$sections[$page] as $sec) {
-				
-				if ($sec["id"] == $section) {
-					$class = "nav-tab-active";
-				}else {
-					$class = "";
-				}
-				
-				?>
-
-					<a data-section="<?php echo esc_attr($sec['id']); ?>" href="<?php echo "?page=".esc_attr($page)."&section=".esc_attr($sec["id"]) ?>" class="nav-tab <?php echo esc_attr($class) ?> <?php echo esc_attr($sec["id"])?>"><?php echo esc_html($sec["title"])?></a>
-
-				<?php
-			}
-			
-			echo '</h2>';
-
-			if (!empty(self::$sections[$page][$section]['html'])) {
-				if (file_exists(self::$sections[$page][$section]['html'])) {
-					echo '<div class="form-settings">';
-					require(self::$sections[$page][$section]['html']);
-					echo '</div>';
-					do_action('sse_footer_'.$page);
-				}
-				return;
-			}
+			/* include html file if needed for documentation ,faq, etc and exit() */
+			self::include_file($page, $section);
 			
 			echo '<form class="form-settings" method="post">';
 			
@@ -150,39 +211,14 @@ class Sse {
 				if (isset($values[$field["id"]])) {
 					$field["value"] = $values[$field["id"]];	
 				}
-
-				//required multi level
-				$level = 0;
-				$show = 0;
-				if (isset($field['required'])) {
-					if (is_array($field["required"][0])) {
-						foreach ($field["required"] as $required) {
-							
-							if ($values[$required[0]] == false) {
-								$show++;
-							}
-							
-							
-							$level++;
-						}
-					}else if (is_string($field["required"][0])) {
-						
-							if ($values[$field["required"][0]] == false) {
-								$show++;
-							}
-							$level++;
-					}
-				}
-				if ($show == 0) {
-						$class = "";
-					}else {
-						$class = "hide-this-pls";
-				}
 				
-				if ($level == 0) {
-					$class = "";
-				}
-				$margin = $level * 20;
+				$options = self::nested_options($values,$field);
+				
+				$class = $options['class'];
+				$margin = $options['margin'];
+				$level = $options['level'];
+
+				
 				?>
 				
 				<div style="margin-left:<?php echo esc_attr($margin)?>px" data-level="<?php echo esc_attr($level) ?>" class="inline-field settings-level-<?php echo esc_attr($level) ?> <?php echo esc_attr($field["type"])?> <?php echo esc_attr($class) ?>">
@@ -192,20 +228,12 @@ class Sse {
 				
 				
 				
-			<?php } ?>
-			<?php if (!empty(self::$sections[$page][$section]["fields"])) { ?>
-				<div class="submit" style="clear: both;display:inline-block">
-				  <input id="submit-update" type="submit" name="Submit" class="button-primary" value="Update Settings">
-				  <div id="settings-spinner" class="spinner"></div>
-				</div>
-				<input id="page" type="hidden" value="<?php echo esc_attr($page) ?>"></input>
-				<input id="wordpress-token" type="hidden" value="<?php echo wp_create_nonce('sse-update-settings'); ?>"></input>
-			   </form>
-			</div>
-			<?php
+			<?php }
+			
+			/* Show form update button */
+			self::update_button($page,$section);
 			
 			do_action('sse_footer_'.$page);
-			}
 		}
 
 	}
