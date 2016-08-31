@@ -1,5 +1,5 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AlexAlexandru/sse/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AlexAlexandru/sse/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/AlexAlexandru/sse/badges/build.png?b=master)](https://scrutinizer-ci.com/g/AlexAlexandru/sse/build-status/master)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/alexalexandru/sse.svg)](https://scrutinizer-ci.com/g/AlexAlexandru/sse/?branch=master)
+[![Scrutinizer Build](https://img.shields.io/scrutinizer/build/g/alexalexandru/sse.svg)](https://github.com/alexalexandru/sse)
 ### SSE - Simple settings framework for Wp plugins developers
 Ain't got time to spend on a settings page and want to focus on the plugin itself?Than Sse should do the job for simple and medium complexity plugins.
 ######Screenshots in the screenshots folder.
