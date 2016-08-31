@@ -1,25 +1,29 @@
 <?php
 
-final class Sse_image_select extends Sse_basic {
-	
-	protected $options = array();
-	
-	public function __construct(array $fields) {
-		parent::__construct($fields);
-	}
-	
-	public function display() {
-		?>
+final class Sse_image_select extends Sse_basic
+{
+    protected $options = [];
+
+    public function __construct(array $fields)
+    {
+        parent::__construct($fields);
+    }
+
+    public function display()
+    {
+        ?>
 		
 		<h4 class="field-title"><?php echo esc_html($this->title) ?></h4>
 		
-		<?php foreach ($this->options as $k=>$v) { ?>
+		<?php foreach ($this->options as $k => $v) {
+            ?>
 		
 		<div class="inline-image">
-			<img class="image" alt="<?php echo esc_attr($v['alt']) ?>" src="<?php echo esc_url($v["img"]) ?>">
-			<input value="<?php echo esc_attr($k) ?>" <?php echo ($k == $this->value) ? "checked" : false; ?> class="select-image" type="radio" name="<?php echo esc_attr($this->id) ?>""> </input>
+			<img class="image" alt="<?php echo esc_attr($v['alt']) ?>" src="<?php echo esc_url($v['img']) ?>">
+			<input value="<?php echo esc_attr($k) ?>" <?php echo ($k == $this->value) ? 'checked' : false; ?> class="select-image" type="radio" name="<?php echo esc_attr($this->id) ?>""> </input>
 		</div>	
-		<?php } ?>
+		<?php 
+        } ?>
 		
 		
 		<span class="field-subtitle"> <?php  echo esc_html($this->subtitle) ?></span>
@@ -28,9 +32,11 @@ final class Sse_image_select extends Sse_basic {
 		
 		
 		<?php
-	}
-	
-	public static function verify($value) {
-		return sanitize_key($value);
-	}
+
+    }
+
+    public static function verify($value)
+    {
+        return sanitize_key($value);
+    }
 }

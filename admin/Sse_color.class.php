@@ -1,14 +1,15 @@
 <?php
 
-final class Sse_color extends Sse_basic {
-	
-	public function __construct(array $fields) {
-		parent::__construct($fields);
-	}
-	
-	public function display() {
-		
-		?>
+final class Sse_color extends Sse_basic
+{
+    public function __construct(array $fields)
+    {
+        parent::__construct($fields);
+    }
+
+    public function display()
+    {
+        ?>
 		
 		<h4 class="field-title"><?php echo esc_html($this->title)?></h4>
 
@@ -17,13 +18,16 @@ final class Sse_color extends Sse_basic {
 		<p class="field-desc"> <?php echo esc_html($this->desc) ?> </p>
 		
 		<?php
-	}
-	
-	public static function verify($color) {
-		// 3 or 6 hex digits, or the empty string.
-		if (preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color)) {
-			return $color;
-		}
-		return "#000000";
-	}
+
+    }
+
+    public static function verify($color)
+    {
+        // 3 or 6 hex digits, or the empty string.
+        if (preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color)) {
+            return $color;
+        }
+
+        return '#000000';
+    }
 }

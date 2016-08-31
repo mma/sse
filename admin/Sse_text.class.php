@@ -1,14 +1,15 @@
 <?php
 
-final class Sse_text extends Sse_basic {
-	
-	public function __construct(array $fields) {
-		parent::__construct($fields);
-	}
-	
-	public function display() {
-		
-		?>
+final class Sse_text extends Sse_basic
+{
+    public function __construct(array $fields)
+    {
+        parent::__construct($fields);
+    }
+
+    public function display()
+    {
+        ?>
 		
 		<h4 class="field-title"><?php echo esc_html($this->title) ?></h4>
 
@@ -20,9 +21,11 @@ final class Sse_text extends Sse_basic {
 		
 		
 		<?php
-	}
-	
-	public static function verify($value) {
-		return sanitize_text_field($value);
-	}
+
+    }
+
+    public static function verify($value)
+    {
+        return sanitize_text_field($value);
+    }
 }
