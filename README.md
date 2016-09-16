@@ -8,6 +8,8 @@ Copy the admin folder in your plugin then simply do
 ```PHP
 require_once(plugin_dir_path( __FILE__ ).'admin/autoload.php');
 ```
+
+FIX min and max check on settings UPDAte reminder ignore this line
 That's all that is.Now let's get into the config file.
 Config file is where you are going to specify want fields you want and the default values.
 ####Supported fields type are:
